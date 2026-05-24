@@ -1,10 +1,4 @@
 #!/bin/bash
-lsblk
-sudo growpart /dev/nvme0n1 4
-sudo lvextend -l +50%FREE /dev/RootVG/rootVol
-sudo lvextend -l +50%FREE /dev/RootVG/varVol
-sudo xfs_growfs /
-sudo xfs_growfs /var
 
 docker install 
 curl https://github.com/daws-81s/expense-docker/blob/main/install-docker.sh | sudo bash
