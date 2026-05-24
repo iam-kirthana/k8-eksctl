@@ -1,6 +1,5 @@
 #!/bin/bash
 
- 
 
 USERID=$(id -u)
 TIMESTAMP=$(date +%F-%H-%M-%S)
@@ -11,34 +10,29 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
- 
+
 
 ARCH=amd64
 PLATFORM=$(uname -s)_$ARCH
 
- 
 
 VALIDATE(){
-   if [ $1 -ne 0 ]
-   then
-        echo -e "$2...$R FAILURE $N"
-        exit 1
-    else
-        echo -e "$2...$G SUCCESS $N"
-    fi
-]}
+if [ $1 -ne 0 ]
+ then
+echo -e "$2...$R FAILURE $N"exit 1
+ else
+ echo -e "$2...$G SUCCESS $N"
+fi
+}
 
- 
 
 if [ $USERID -ne 0 ]
 then
-    echo "Please run this script with root access."
-    exit 1 # manually exit if error comes.
+echo "Please run this script with root access."
+exit 1 # manually exit if error comes.
 else
-    echo "You are super user."
+echo "You are super user."
 fi
-
- 
 
 # docker
 yum install -y yum-utils
@@ -49,7 +43,6 @@ systemctl enable docker
 usermod -aG docker ec2-user
 VALIDATE $? "Docker installation"
 
- 
 
 # eksctl
 curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
@@ -57,10 +50,6 @@ tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
 mv /tmp/eksctl /usr/local/bin
 eksctl version
 VALIDATE $? "eksctl installation"
-
- 
-
- 
 
 # kubectl
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/linux/amd64/kubectl
